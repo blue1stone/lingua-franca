@@ -87,7 +87,9 @@ def extract_duration_de(text):
 
 def _convert_words_to_numbers_de(text):
     for word, number in _DE_NUMBERS.items():
-        text = text.replace(word, str(number))
+        # TODO also handle cases at the end of a sentence
+        # make sure words like "einer" are not replaced by "ein"
+        text = text.replace(word + " ", str(number))
     
     return text
 
