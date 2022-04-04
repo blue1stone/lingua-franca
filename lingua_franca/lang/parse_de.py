@@ -23,63 +23,6 @@ from lingua_franca.lang.format_de import pronounce_number_de
 from lingua_franca.time import now_local
 
 
-de_numbers = {
-    'null': 0,
-    'ein': 1,
-    'eins': 1,
-    'eine': 1,
-    'einer': 1,
-    'einem': 1,
-    'einen': 1,
-    'eines': 1,
-    'zwei': 2,
-    'drei': 3,
-    'vier': 4,
-    'fünf': 5,
-    'sechs': 6,
-    'sieben': 7,
-    'acht': 8,
-    'neun': 9,
-    'zehn': 10,
-    'elf': 11,
-    'zwölf': 12,
-    'dreizehn': 13,
-    'vierzehn': 14,
-    'fünfzehn': 15,
-    'sechzehn': 16,
-    'siebzehn': 17,
-    'achtzehn': 18,
-    'neunzehn': 19,
-    'zwanzig': 20,
-    'einundzwanzig': 21,
-    'zweiundzwanzig': 22,
-    'dreiundzwanzig': 23,
-    'vierundzwanzig': 24,
-    'fünfundzwanzig': 25,
-    'sechsundzwanzig': 26,
-    'siebenundzwanzig': 27,
-    'achtundzwanzig': 28,
-    'neunundzwanzig': 29,
-    'dreißig': 30,
-    'einunddreißig': 31,
-    'vierzig': 40,
-    'fünfzig': 50,
-    'sechzig': 60,
-    'siebzig': 70,
-    'achtzig': 80,
-    'neunzig': 90,
-    'hundert': 100,
-    'zweihundert': 200,
-    'dreihundert': 300,
-    'vierhundert': 400,
-    'fünfhundert': 500,
-    'sechshundert': 600,
-    'siebenhundert': 700,
-    'achthundert': 800,
-    'neunhundert': 900,
-    'tausend': 1000,
-    'million': 1000000
-}
 
 # TODO: short_scale and ordinals don't do anything here.
 # The parameters are present in the function signature for API compatibility
@@ -124,8 +67,8 @@ def extract_duration_de(text):
     # Einzahl und Mehrzahl
     pattern = r"(?P<value>\d+(?:\.?\d+)?)(?:\s+|\-){unit}[ne]?"
 
-    # TODO Einstiegspunkt für Text-zu-Zahlen Konversion
-    #text = _convert_words_to_numbers_de(text)
+    # Einstiegspunkt für Text-zu-Zahlen Konversion
+    text = _convert_words_to_numbers_de(text)
 
     for (unit_en, unit_de) in time_units.items():
         unit_pattern = pattern.format(
@@ -141,6 +84,12 @@ def extract_duration_de(text):
     duration = timedelta(**time_units) if any(time_units.values()) else None
 
     return (duration, text)
+
+def _convert_words_to_numbers_de(text):
+    for word, number in _DE_NUMBERS.items():
+        text.replace(word, number)
+    
+    return text
 
 
 def extract_number_de(text, short_scale=True, ordinals=False):
