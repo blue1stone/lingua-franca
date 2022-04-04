@@ -87,7 +87,7 @@ def extract_duration_de(text):
 
 def _convert_words_to_numbers_de(text):
     for word, number in _DE_NUMBERS.items():
-        text.replace(word, str(number))
+        text = text.replace(word, str(number))
     
     return text
 
